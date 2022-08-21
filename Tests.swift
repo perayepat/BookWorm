@@ -51,3 +51,34 @@ struct PushButton: View{
         .shadow(radius: isON ? 0 : 5)
     }
 }
+
+
+//MARK: - Core Data Saving and calling
+
+struct coreTest: View{
+    @Environment(\.managedObjectContext) var moc
+    ///make a new fetch request with no sotrting , and put the resiults in a students arrau
+    @FetchRequest(sortDescriptors: []) var students: FetchedResults<Student>
+    var body: some View{
+        VStack{
+            List(students) { student in
+                Text(student.name ?? "Unkown")
+            }
+            //Add students
+            Button("Add"){
+                let firstName = ["Ginny", "Sans", "Helvetice", "Comic Sans"]
+                let lastNames = ["A","B","A+","D"]
+                
+                let chosenFirstName = firstName.randomElement()!
+                let chosenLastName = lastNames.randomElement()!
+                
+                //MARK: - Call the obejct we want to save
+                let student = Student(context: moc)
+                student.id = UUID()
+                student.name = "\(chosenFirstName)  \(chosenLastName)"
+                //MARK: - save to context
+                try? moc.save()
+            }
+        }
+    }
+}
