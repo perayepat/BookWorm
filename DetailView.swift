@@ -15,6 +15,8 @@ struct DetailView: View {
                 Image(book.genre ?? "Fantasy")
                     .resizable()
                     .scaleEffect()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 450)
                 
                 Text(book.genre?.uppercased() ?? "FANTASY")
                     .font(.caption)
